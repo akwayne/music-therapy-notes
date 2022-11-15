@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}: Search{% endblock %}
+
+{% block main %}
+<div class="container" style="max-width: 650px">
+  <img src="{{ url_for('static', filename='logo.png') }}" class="img-fluid mx-auto d-none d-sm-block mb-2" style="max-width: 250px">
+  <h1 class="mb-5">Search Therapy Notes</h1>
+  <!--search form-->
+  <form action="/search" method="post">
+      
+    <!--search by title or artist-->
+    <div class="row mb-4">
+      <div class="col">
+        <span class="material-symbols-outlined d-inline align-middle">search</span>
+        <label for="search-text" class="form-label">Search by Title or Artist</label>
+        <input type="text" name="search-text" id="search-text" autocomplete="off" class="form-control">
+      </div>
+    </div>
+      
+    <!--tag checkboxes-->
+    <div class="row mb-4">
+      <div>
+        <span class="material-symbols-outlined align-middle">sell</span>
+        Select tags
+      </div>
+        
+      {% for type in type_list %}
+      <div class="col-sm mt-2">
+        <strong>{{ type | capitalize }}s</strong>
+        
+        {% for tag in tags if tag['type'] == type %}
+        <div>
+          <input type="checkbox" name="tag" id="{{ tag['id'] }}" value="{{ tag['id'] }}">
+          <label for="{{ tag['id'] }}">{{ tag['name'] }}</label>
+        </div>
+        {% endfor %}
+
+      </div>
+      {% endfor %}
+    </div>  
+    
+    <!--submit button-->
+    <button type="submit" class="btn btn-primary">Search</button>
+    
+  </form>
+</div>
+{% endblock %}

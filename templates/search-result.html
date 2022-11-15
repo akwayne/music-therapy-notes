@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+
+{% block title %}: Search{% endblock %}
+
+{% block main %}
+<div class="container py-sm-4">
+  
+  <div class="row">
+    <!--Search form (hidden on small screens)-->
+    <div class="col-md-4 col-lg-3 d-none d-md-block">
+      <form action="/search" method="post">
+      
+        <!--search by title or artist-->
+        <div class="row mb-4">
+          <div class="col-md-10">
+            <img src="{{ url_for('static', filename='logo.png') }}" class="img-fluid d-block mx-auto mb-3" style="max-width: 150px">
+            <span class="material-symbols-outlined d-inline align-middle">search</span>
+            <label for="search-text" class="form-label">Search by Title or Artist</label>
+            <input type="text" name="search-text" id="search-text" autocomplete="off" value="{{ searched_text }}" class="form-control">
+          </div>
+        </div>
+        
+        <!--tag checkboxes-->
+        <div class="row mb-4">
+          <div>
+            <span class="material-symbols-outlined align-middle">sell</span>
+            Select tags
+          </div>
+            
+          {% for type in type_list %}
+          <div class="col-md-10 mt-2">
+            <strong>{{ type | capitalize }}s</strong>
+              
+            {% for tag in tags if tag['type'] == type %}
+            <div>
+              <input type="checkbox" name="tag" id="{{ tag['id'] }}" value="{{ tag['id'] }}"
+              {% if tag['id'] in searched_tags %}checked{% endif %}>
+              <label for="{{ tag['id'] }}">{{ tag['name'] }}</label>
+            </div>
+            {% endfor %}
+              
+          </div>
+          {% endfor %}
+
+        </div> 
+        <button type="submit" class="btn btn-primary mb-3">Search Again</button>
+      </form>
+      <button class="btn btn-primary mb-4" onclick="history.back()">Go Back</button>
+    </div>
+    <!--Search result table-->
+    <div class="col-md-8 col-lg-9">
+      <h1>Search Results</h1>
+      <table class="table table-hover mb-3">
+        <thead>
+          <tr>
+            <th>Song Title</th>
+            <th>Artist</th>
+            <th>Tags</th>
+            <th class="text-center">Add to Library</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for song in songs %}
+          <tr onclick="window.location='/song?q={{ song['id'] }}';">
+            <td>{{ song['title'] }}</td>
+            <td>{{ song['artist'] }}</td>
+            <td>
+              {% for tag in song['tags'] %}
+              {{ tag }}<br>
+              {% endfor %}
+            </td>
+            <td class="text-center align-middle">
+              {% if not (song['id'] | in_library) %}
+              <!--Add to library button-->
+              <form action="/addtolibrary" method="POST">
+                <input type="hidden" name="songid" value="{{ song['id'] }}">
+                <button type="submit" class="btn btn-link">
+                  <span class="material-symbols-outlined align-middle">library_add</span>
+                </button>
+              </form>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+    <!--back button for small screens only-->
+    <div class="d-md-none">
+      <button class="btn btn-primary mb-4" onclick="history.back()">Go Back</button>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

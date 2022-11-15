@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="container py-sm-4">
+    <div class="row">
+        <div class="col">
+            <div class="d-flex">
+                <h2>{{ song['title'] }}</h2>
+                
+                <!--Edit button only available for owner of this song-->
+                {% if song['user_id'] == session["user_id"] %}
+                <button class="btn btn-link" onclick="window.location='/edit?q={{ song['id'] }}';">
+                    <span class="material-symbols-outlined align-text-middle">edit</span>
+                </button>
+                {% endif %}
+            </div>
+
+            <!--Click on artist name to search database by artist-->
+            <form action="/search" method="post">
+                <input type="hidden" name="search-text" id="search-text" value="{{ song['artist'] }}">
+                <div class="d-inline">Artist: </div>
+                <button type="submit" class="btn btn-link d-inline px-0">{{ song['artist'] }}</button>
+            </form>
+
+            
+
+
+            {% if song['description'][0] %}
+            <p><strong>Description</strong> <br>
+                {% for line in song['description'] %}
+                {{ line }}<br>
+                {% endfor %}
+            </p>
+            {% endif %}
+            
+            <p>
+                <span class="material-symbols-outlined align-middle">sell</span>
+                {% for tag in song['tags'] %}
+                {{ tag }}{{ ", " if not loop.last else "" }}
+                {% endfor %}
+            </p>
+            
+            <!--Add / Remove from library buttons-->
+            {% if not (song['id'] | in_library) %}
+            <form action="/addtolibrary" method="POST">
+                <input type="hidden" name="songid" value="{{ song['id'] }}">
+                <button type="submit" class="btn btn-primary mb-3">Add To Library</button>
+            </form>
+
+            {% else %}
+            <form action="/removelibrary" method="POST">
+                <input type="hidden" name="songid" value="{{ song['id'] }}">
+                <button type="submit" class="btn btn-danger mb-3">Remove from My Library</button>
+            </form>
+            {% endif %}
+
+            <!--Back button-->
+            <button class="btn btn-primary mb-3" onclick="history.back()">Go Back</button>
+        </div>
+        
+        <div class="col-md">
+        {% if song['link'] %}
+            <p>
+                Link to Media:
+                <a href="{{ song['link'] }}">{{ song['link'] }}</a>
+            </p>
+        {% endif %}
+        
+        {% if (song['id'] | has_file) %}
+            {% if (song['file_name'] | file_type) == 'pdf' %}
+            <p>
+                Attached PDF:
+                <a href="{{ url_for('static', filename=file_path) }}">{{ song['file_name'] }}</a>
+            </p>
+            
+            {% else %}
+            <img src="{{ url_for('static', filename=file_path) }}" class="img-fluid">
+            {% endif %}
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

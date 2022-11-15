@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="container py-sm-4">
+    <h1>Edit your song</h1>
+    <form action="/edit" method="post" enctype="multipart/form-data">
+        <!--hidden field to pass song id-->
+        <input type="hidden" name="songid" value="{{ song['id'] }}">
+
+        <!--text fields-->
+        <div class="mb-3">
+            <label for="title" class="form-label">Song Title</label>
+            <input type="text" name="title" id="title" value="{{ song['title'] }}" autocomplete="off" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="artist" class="form-label">Artist</label>
+            <input type="text" name="artist" id="artist" value="{{ song['artist'] }}" autocomplete="off" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Type a Description</label>
+            <textarea name="description" id="description" class="form-control" rows="3">{{ song['description'] }}</textarea>
+          </div>
+          <!--upload link-->
+          <div class="mb-3">
+            <label for="link" class="form-label">Add a Link</label>
+            <input type="text" name="link" id="link" value="{{ song['link'] }}" autocomplete="off" class="form-control">
+          </div>
+          <!--upload file-->
+          {% if (song['id'] | has_file) %}
+          <div class="mb-3">
+            You have a file attached to this
+            {{ song['file_name'] }}
+            <input type="checkbox" name="remove_file" id="remove_file" value="True">
+            <label for="remove_file">Remove file from database</label>
+          </div>
+          {% endif %}
+          
+          <div class="mb-3">
+            <input type="file" name="file" accept="image/*, .pdf">
+          </div>
+                
+          <!--tag checkboxes-->
+          <div class="row mb-4">
+            <div>
+              <span class="material-symbols-outlined align-middle">sell</span>
+              Select tags
+            </div>
+              
+            {% for type in type_list %}
+            <div class="col-sm mt-2">
+              <strong>{{ type | capitalize }}s</strong>
+              
+              {% for tag in tags if tag['type'] == type %}
+              <div>
+                <input type="checkbox" name="tag" id="{{ tag['id'] }}" value="{{ tag['id'] }}"
+                {% if tag['name'] in song['tags'] %}checked{% endif %}>
+                <label for="{{ tag['id'] }}">{{ tag['name'] }}</label>
+              </div>
+              {% endfor %}
+
+            </div>
+            {% endfor %}
+
+          </div> 
+
+          <button type="submit" class="btn btn-primary mb-3">Update</button>     
+    </form>
+
+    <button class="btn btn-secondary mb-3" onclick="history.back()">Cancel</button>
+
+    <form action="/delete" method="post">
+        <!--hidden field to pass song id-->
+        <input type="hidden" name="songid" value="{{ song['id'] }}">
+        <button type="submit" class="btn btn-danger mb-3">Delete</button>
+    </form>
+</div>
+
+{% endblock %}

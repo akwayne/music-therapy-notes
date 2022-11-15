@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="container my-5 p-3" style="max-width: 300px">
+  <div class="mb-3">
+    Update Password
+  </div>
+  <form action="/updatepass" method="post">
+    <div class="mb-3">
+      <input type="password" name="current-password" placeholder="Current Password" class="form-control">
+    </div>
+    <div class="mb-3">
+      <input type="password" name="new-password" placeholder="New Password" class="form-control">
+    </div>
+    <div class="mb-3">
+      <input type="password" name="confirmation" placeholder="Confirm New Password" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary mb-3">Update</button>
+  </form>
+  <button class="btn btn-secondary mb-3" onclick="history.back()">Cancel</button>
+</div>
+{% endblock %}

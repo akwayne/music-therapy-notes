@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="container py-sm-4">
+  <h1>My Library</h1>
+  <table class="table table-hover mb-3">
+    <thead>
+      <tr>
+        <th>Song Title</th>
+        <th>Artist</th>
+        <th>Tags</th>
+        <th class="text-center">Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for song in songs %}
+      <tr>
+        <td onclick="window.location='/song?q={{ song['id'] }}';">{{ song['title'] }}</td>
+        <td onclick="window.location='/song?q={{ song['id'] }}';">
+          <!--Click on artist name to search database by artist-->
+          <form action="/search" method="post">
+            <input type="hidden" name="search-text" id="search-text" value="{{ song['artist'] }}">
+            <button type="submit" class="btn btn-link d-inline px-0">{{ song['artist'] }}</button>
+          </form>
+        </td>
+        <td onclick="window.location='/song?q={{ song['id'] }}';">
+          {% for tag in song['tags'] %}
+          {{ tag }}<br>
+          {% endfor %}
+        </td>
+        <td class="text-center align-middle">
+          <!--Remove from library button-->
+          <form action="/removelibrary" method="POST">
+              <input type="hidden" name="songid" value="{{ song['id'] }}">
+              <button type="submit" class="btn btn-link">
+                <span class="material-symbols-outlined align-middle" style="color: red">delete</span>
+              </button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
+</div>
+
+{% endblock %}

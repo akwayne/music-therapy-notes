@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="container my-5 p-3" style="max-width: 300px">
+  <div class="mb-3">
+    Create a new account
+  </div>
+  <form action="/register" method="post">
+    <div class="mb-3">
+      <input type="text" name="username" placeholder="Username"  autocomplete="off" class="form-control">
+    </div>
+    <div class="mb-3">
+      <input type="password" name="password" placeholder="Password" class="form-control">
+    </div>
+    <div class="mb-3">
+      <input type="password" name="confirmation" placeholder="Confirm Password" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary mb-3">Register</button>
+  </form>
+  <div>
+    <a href="/login">Already registered? Login</a>
+  </div>
+</div>
+{% endblock %}

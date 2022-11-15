@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="container py-sm-4">
+  <img src="{{ url_for('static', filename='logo.png') }}" class="img-fluid mx-auto d-block mb-2" style="max-width: 250px">
+  <h1 class="mb-5">Welcome to Therapy Notes</h1>
+
+  <div class="row mx-auto" style="max-width: 900px;">
+    <div class="col-md-4">
+      <div class="card text-center logo-orange h-100">
+        <img src="{{ url_for('static', filename='sheetmusic.jpg') }}" class="card-img-top">
+        <div class="card-body">
+          <a href="/search" class="stretched-link"></a>
+          <h5 class="card-title">Find Music</h5>
+          <p class="card-text">Search the database to find the perfect song for your lesson.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-center logo-indigo h-100">
+        <img src="{{ url_for('static', filename='guitar.jpg') }}" class="card-img-top">
+        <div class="card-body">
+          <a href="/upload" class="stretched-link"></a>
+          <h5 class="card-title">Contribute to the Database</h5>
+          <p class="card-text">Upload your own music or songs that you recommend.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-center logo-pink h-100">
+        <img src="{{ url_for('static', filename='baby.jpg') }}" class="card-img-top">
+        <div class="card-body">
+          <a href="/mylibrary" class="stretched-link"></a>
+          <h5 class="card-title">Keep your Favorites</h5>
+          <p class="card-text">Save songs for when you need them for lesson plans.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

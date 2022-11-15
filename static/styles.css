@@ -1,0 +1,54 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: white;
+}
+
+.navbar-brand {
+  font-family: 'Lobster', cursive;
+  font-size: x-large;
+}
+
+.container {
+  background-color: white;
+  padding: 1.5rem;
+}
+
+h1 {
+  font-family: 'Roboto', sans-serif;
+  font-size: xx-large;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  border: none;
+}
+
+.card img {
+  opacity: .6;
+}
+
+.logo-indigo {
+  background-color: #1820a7;
+  color: white;
+}
+
+.logo-orange {
+  background-color: #ff8127;
+  color: white;
+}
+
+.logo-pink {
+  background-color: #ff3bae;
+  color: white;
+}
+
+.logo-purple {
+  background-color: #9436c5;
+  color: white;
+}
+
+.logo-blue {
+  background-color: #5c7dff;
+  color: white;
+}

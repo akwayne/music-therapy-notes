@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="container my-5 p-3 border" style="max-width: 300px; color: red">
+  <img src="{{ url_for('static', filename='error.jpg') }}" class="img-fluid d-block mx-auto mb-3">
+  <div class="mb-3">
+    Error: {{ message }}
+  </div>
+  <button class="btn btn-primary" onclick="history.back()">Go Back</button>
+</div>
+{% endblock %}

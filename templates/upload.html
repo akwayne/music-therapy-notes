@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="container py-sm-4">
+  <h1>Upload a new song</h1>
+  <form action="/upload" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label for="title" class="form-label">Song Title</label>
+      <input type="text" name="title" id="title" placeholder="Song Title" autocomplete="off" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label for="artist" class="form-label">Artist</label>
+      <input type="text" name="artist" id="artist" placeholder="Artist" autocomplete="off" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Type a Description</label>
+      <textarea name="description" id="description" class="form-control" rows="3"></textarea>
+    </div>
+    <!--upload link-->
+    <div class="mb-3">
+      <label for="link" class="form-label">Add a Link</label>
+      <input type="text" name="link" id="link" placeholder="Insert URL Here" autocomplete="off" class="form-control">
+    </div>
+    <!--upload file-->
+    <div class="mb-3">
+      <input type="file" name="file" accept="image/*, .pdf">
+    </div>
+  
+    <!--tag checkboxes-->
+    <div class="row mb-4">
+      <div>
+        <span class="material-symbols-outlined align-middle">sell</span>
+        Select tags
+      </div>
+        
+      {% for type in type_list %}
+      <div class="col-sm mt-2">
+        <strong>{{ type | capitalize }}s</strong>
+        
+        {% for tag in tags if tag['type'] == type %}
+        <div>
+          <input type="checkbox" name="tag" id="{{ tag['id'] }}" value="{{ tag['id'] }}">
+          <label for="{{ tag['id'] }}">{{ tag['name'] }}</label>
+        </div>
+        {% endfor %}
+
+      </div>
+      {% endfor %}
+
+    </div>  
+  
+    <button type="submit" class="btn btn-primary">Upload</button>
+  </form>
+</div>
+
+{% endblock %}

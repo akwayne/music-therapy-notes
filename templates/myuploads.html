@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<div class="container py-sm-4">
+  <h1>My Uploads</h1>
+  <table class="table table-hover mb-3">
+    <thead>
+      <tr>
+        <th>Song Title</th>
+        <th>Artist</th>
+        <th>Tags</th>
+        <th class="text-center">Edit</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for song in songs %}
+      <tr>
+        <td onclick="window.location='/song?q={{ song['id'] }}';">{{ song['title'] }}</td>
+        <td onclick="window.location='/song?q={{ song['id'] }}';">
+          <!--Click on artist name to search database by artist-->
+          <form action="/search" method="post">
+            <input type="hidden" name="search-text" id="search-text" value="{{ song['artist'] }}">
+            <button type="submit" class="btn btn-link d-inline p-0">{{ song['artist'] }}</button>
+          </form>
+        </td>
+        <td onclick="window.location='/song?q={{ song['id'] }}';">
+          {% for tag in song['tags'] %}
+          {{ tag }}<br>
+          {% endfor %}
+        </td>
+        <td class="text-center align-middle">
+          <button class="btn btn-link" onclick="window.location='/edit?q={{ song['id'] }}';">
+            <span class="material-symbols-outlined align-middle">edit</span>
+          </button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
+  <button class="btn btn-primary" onclick="history.back()">Go Back</button>
+</div>
+
+{% endblock %}
